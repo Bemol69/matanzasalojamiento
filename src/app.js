@@ -68,7 +68,7 @@
     const fd = (v) => { const [y, m, d] = v.split('-'); return `${d}/${m}/${y}`; };
     const msg = () => {
       const f = form;
-      return `*Hola! Quiero reservar* 🌅\n\n👤 *Nombre:* ${f.nombre.value.trim() || '…'}\n🏡 *Alojamiento:* ${f.alojamiento.value}\n📅 *Llegada:* ${f.llegada.value ? fd(f.llegada.value) : '…'}\n📅 *Salida:* ${f.salida.value ? fd(f.salida.value) : '…'}\n👥 *Personas:* ${f.personas.value || '…'}` + (f.detalle.value.trim() ? `\n💬 ${f.detalle.value.trim()}` : '') + '\n\n_Enviado desde la web_';
+      return `*Hola! Quiero reservar* ${D.ajustes.emoji}\n\n👤 *Nombre:* ${f.nombre.value.trim() || '…'}\n🏡 *Alojamiento:* ${f.alojamiento.value}\n📅 *Llegada:* ${f.llegada.value ? fd(f.llegada.value) : '…'}\n📅 *Salida:* ${f.salida.value ? fd(f.salida.value) : '…'}\n👥 *Personas:* ${f.personas.value || '…'}` + (f.detalle.value.trim() ? `\n💬 ${f.detalle.value.trim()}` : '') + '\n\n_Enviado desde la web_';
     };
     const prev = $('#prev'), err = $('#error');
     const upd = () => { prev.textContent = msg(); };

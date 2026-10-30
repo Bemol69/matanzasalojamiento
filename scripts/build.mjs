@@ -72,7 +72,7 @@ const filtros = cats.length > 1
 const opciones = prods.map(p => `<option>${esc(p.nombre)}</option>`).join('') + '<option>Aún no sé, quiero que me ayuden</option>';
 
 // hero
-const hero = await img('fotos/tinaja-1.jpg');
+const hero = await img(cfg.hero_foto || prods[0]?.portada);
 const og = await img(prods[0]?.portada);
 const dom = (cfg.dominio || '').replace(/\/$/, '');
 const mapq = encodeURIComponent(aj.direccion || '');
@@ -100,12 +100,12 @@ const css = hashed('styles', 'css'), js = hashed('app', 'js');
 
 const flyerImg = fl.imagen ? await img(fl.imagen.replace(/^\/?(assets\/)?/, '')) : null;
 
-const datos = { ajustes: { whatsapp: aj.whatsapp, horario: aj.horario || [] }, productos: datosProd, flyer: { popup: !!fl.popup } };
+const datos = { ajustes: { emoji: cfg.emoji || '✨', whatsapp: aj.whatsapp, horario: aj.horario || [] }, productos: datosProd, flyer: { popup: !!fl.popup } };
 
 const vars = {
   TITULO: esc(cfg.seo?.titulo || cfg.nombre), DESC: esc(cfg.seo?.descripcion || ''), CANON: dom + '/', NOMBRE: esc(cfg.nombre),
   OG: og && dom ? `${dom}/${og.l}` : '', CSS: css, JS: js, JSONLD: JSON.stringify(ld).replace(/</g, '\\u003c'),
-  LEMA: esc(aj.lema), SUBTITULO: esc(aj.subtitulo), WA_BASE: esc(waBase), IG: esc(aj.instagram), SEGUIDORES: '23,8 mil',
+  LEMA: esc(aj.lema), SUBTITULO: esc(aj.subtitulo), WA_BASE: esc(waBase), IG: esc(aj.instagram), SEGUIDORES: cfg.seguidores || '',
   HERO_M: hero?.m || '', HERO_L: hero?.l || '', TARJETAS: cards, FILTROS: filtros, OPCIONES: opciones,
   CIUDAD: esc(aj.ciudad), REGION: esc(aj.region), CORREO: esc(aj.correo), DIRECCION: esc(aj.direccion),
   MAPSRC: `https://www.google.com/maps?q=${mapq}&output=embed`, MAPLINK: `https://www.google.com/maps/search/?api=1&query=${mapq}`,
@@ -113,6 +113,7 @@ const vars = {
   FLYER_IMG: flyerImg ? `<img src="${flyerImg.l}" alt="${esc(fl.titulo)}">` : '', FLYER_TITULO: esc(fl.titulo), FLYER_TEXTO: esc(fl.texto),
   FLYER_WA: aj.whatsapp ? esc(waUrl(fl.mensaje || aj.mensaje_defecto)) : ''
 };
+vars.N = String(prods.length);
 const flags = { WHATSAPP: !!aj.whatsapp, DIRECCION: !!aj.direccion, HORARIO: (aj.horario || []).length > 0, FLYER: !!fl.mostrar && !!(fl.titulo || fl.imagen), CORREO: !!aj.correo };
 
 let html = fs.readFileSync(P('src/index.html'), 'utf8');
