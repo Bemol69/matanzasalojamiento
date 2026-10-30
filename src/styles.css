@@ -168,3 +168,5 @@ h2{font-size:clamp(1.9rem,4.6vw,3.2rem)}
   .js .reveal{opacity:1;transform:none}
   .hero__sun,.hero__photo img{transform:none!important}
 }
+
+dialog:not([open]){display:none}
