@@ -1,0 +1,60 @@
+backend:
+  name: github
+  repo: Bemol69/matanzasalojamiento
+  branch: main
+media_folder: assets/fotos
+public_folder: /
+locale: es
+collections:
+  - name: alojamientos
+    label: Alojamientos
+    folder: data/productos
+    extension: json
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { name: nombre, label: Nombre, hint: "Ej: Cabaña Horizonte", widget: string }
+      - { name: categoria, label: Categoría, hint: "Ej: Cabañas", widget: string }
+      - { name: capacidad, label: Capacidad, hint: "Ej: 4 personas", widget: string, required: false }
+      - { name: precio, label: Precio por noche (opcional), hint: "Ej: $65.000. Vacío = consultar por WhatsApp", widget: string, required: false }
+      - { name: etiqueta, label: Etiqueta (opcional), hint: "Ej: La favorita", widget: string, required: false }
+      - { name: descripcion, label: Descripción, widget: text }
+      - { name: portada, label: Foto principal, widget: image }
+      - { name: fotos, label: Más fotos, widget: list, field: { name: foto, label: Foto, widget: image }, required: false }
+      - { name: orden, label: Orden, widget: number, value_type: int, default: 1 }
+      - { name: visible, label: Mostrar en la web, widget: boolean, default: true }
+  - name: ajustes
+    label: Ajustes
+    files:
+      - name: ajustes
+        label: Contacto y textos
+        file: data/ajustes.json
+        fields:
+          - { name: whatsapp, label: WhatsApp, hint: "Formato 569XXXXXXXX, sin + ni espacios", widget: string, pattern: ["^569\\d{8}$", "Debe ser 569 seguido de 8 dígitos"] }
+          - { name: mensaje_defecto, label: Mensaje por defecto, widget: string }
+          - { name: instagram, label: Instagram (sin @), widget: string }
+          - { name: correo, label: Correo, widget: string, required: false }
+          - { name: direccion, label: Dirección (para el mapa), widget: string, required: false }
+          - { name: ciudad, label: Ciudad, widget: string }
+          - { name: region, label: Región, widget: string }
+          - { name: lema, label: Frase de portada, widget: string }
+          - { name: subtitulo, label: Texto de portada, widget: text }
+          - name: horario
+            label: Horario de atención
+            widget: list
+            required: false
+            fields:
+              - { name: dia, label: Día, hint: "Ej: Lunes", widget: string }
+              - { name: abre, label: Abre, hint: "HH:MM", widget: string, pattern: ["^\\d{2}:\\d{2}$", "Formato HH:MM"] }
+              - { name: cierra, label: Cierra, hint: "HH:MM", widget: string, pattern: ["^\\d{2}:\\d{2}$", "Formato HH:MM"] }
+              - { name: cerrado, label: Cerrado todo el día, widget: boolean, default: false }
+      - name: flyer
+        label: Flyer de promoción
+        file: data/flyer.json
+        fields:
+          - { name: mostrar, label: Mostrar flyer, widget: boolean }
+          - { name: popup, label: Mostrar como ventana al entrar, widget: boolean }
+          - { name: imagen, label: Imagen, widget: image, required: false }
+          - { name: titulo, label: Título, widget: string, required: false }
+          - { name: texto, label: Texto, widget: text, required: false }
+          - { name: mensaje, label: Mensaje de WhatsApp, widget: string, required: false }
